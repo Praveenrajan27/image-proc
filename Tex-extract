@@ -1,0 +1,52 @@
+%-------------------------Edge based texture extraction------------------
+  %read input image
+  im=imread('i55.jpg');
+  im=im(:,:,1);
+  %resize the input image
+  im=imresize(im,[n,n]);
+  im=double(im);
+  
+  %define the filter masks 
+  r1=[-1 -1 -1; 2 2 2;-1 -1 -1];
+  r2=[-1 -1 2;-1 2 -1; 2 -1 -1];
+  r3=[-1 2 -1; -1 2 -1; -1 2 -1];
+  r4=[2 -1 -1; -1 2 -1;-1 -1 2];
+  r5=[-1 -2 -1;0 0 0;1 2 1];
+  r6=[-1 0 -1;2 0 2;-1 0 1];
+  
+  %apply the masks over im
+  l1=conv2(im,r1,'same');
+  l2=conv2(im,r2,'same');
+  l3=conv2(im,r3,'same');
+  l4=conv2(im,r4,'same');
+  l5=conv2(im,r5,'same');
+  l6=conv2(im,r6,'same');
+  
+  %calculate absolute values 
+  l1=abs(l1);
+  l2=abs(l2);
+  l3=abs(l3);
+  l4=abs(l4);
+  l5=abs(l5);
+  l6=abs(l6);
+  
+  %display masked images
+  figure (1);imagesc(l1);
+  %figure (2);imagesc(l2);
+  %figure (3);imagesc(l3);
+  %figure (4);imagesc(l4);
+  %figure (5);imagesc(l5);
+  %figure (6);imagesc(l6);
+  
+  %consolidate pixel values into column values
+  fod=im2col(l1',[n n]);
+  fox=im2col(l2',[n n]);
+  foy=im2col(l3',[n n]);
+  f1d=im2col(l4',[n n]);
+  f2d=im2col(l5',[n n]);
+  f2x=im2col(l6',[n n]);
+  
+  %final texture parameter
+  % This can be used further for image analysis and retrieval
+  f=[fod fox foy f1d f2x f2d];
+  
